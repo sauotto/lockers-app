@@ -1,0 +1,16 @@
+.public-panel {
+    height: 100%;
+    width: 100%;
+    /* 🔥 CAMBIO IMPORTANTE */
+    display: flex;
+
+}
+
+.locker-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    gap: 3px;
+    width: 99%;
+    max-height: 99%;
+}
