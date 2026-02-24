@@ -31,31 +31,31 @@ const Login = () => {
     return (
         <div className="login-container">
             <div className="login-card">
-                <h2>Admin Access</h2>
+                <h2>Acceso Administrador</h2>
                 {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handleLogin}>
                     <div className="form-group">
-                        <label>Email</label>
+                        <label>Correo electrónico</label>
                         <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter admin email"
+                            placeholder="Ingresa el correo de administrador"
                             required
                         />
                     </div>
                     <div className="form-group">
-                        <label>Password</label>
+                        <label>Contraseña</label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Enter password"
+                            placeholder="Ingresa la contraseña"
                             required
                         />
                     </div>
                     <button type="submit" className="login-btn" disabled={loading}>
-                        {loading ? 'Signing In...' : 'Sign In'}
+                        {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
                     </button>
                 </form>
             </div>

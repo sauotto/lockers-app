@@ -30,7 +30,7 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div className="loading-screen">Loading...</div>;
+    return <div className="loading-screen">Cargando...</div>;
   }
 
   return (
