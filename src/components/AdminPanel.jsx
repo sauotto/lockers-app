@@ -75,6 +75,25 @@ const AdminPanel = () => {
                 </div>
             </div>
 
+            {/* ── KPIs por tipo de colaborador ── */}
+            <div className="kpi-row">
+                <div className="kpi-card kpi-line">
+                    <span className="kpi-value">{stats.byLine}</span>
+                    <span className="kpi-pct">{stats.pctLine}%</span>
+                    <span className="kpi-label">Col. de Línea</span>
+                </div>
+                <div className="kpi-card kpi-leader">
+                    <span className="kpi-value">{stats.byLeader}</span>
+                    <span className="kpi-pct">{stats.pctLeader}%</span>
+                    <span className="kpi-label">Líder de Área</span>
+                </div>
+                <div className="kpi-card kpi-external">
+                    <span className="kpi-value">{stats.byExternal}</span>
+                    <span className="kpi-pct">{stats.pctExternal}%</span>
+                    <span className="kpi-label">Externo</span>
+                </div>
+            </div>
+
             {/* ── Contenido principal ── */}
             <div className="admin-content">
                 <div className="locker-list card">

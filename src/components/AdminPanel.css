@@ -99,6 +99,68 @@
     text-align: center;
 }
 
+/* ── KPIs por tipo de colaborador ── */
+.kpi-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.kpi-card {
+    background: var(--card-bg);
+    padding: 12px 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: 3px solid;
+}
+
+.kpi-card.kpi-line {
+    border-left-color: #3b82f6;
+}
+
+.kpi-card.kpi-leader {
+    border-left-color: #f59e0b;
+}
+
+.kpi-card.kpi-external {
+    border-left-color: #8b5cf6;
+}
+
+.kpi-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+.kpi-card.kpi-line .kpi-value {
+    color: #3b82f6;
+}
+
+.kpi-card.kpi-leader .kpi-value {
+    color: #f59e0b;
+}
+
+.kpi-card.kpi-external .kpi-value {
+    color: #8b5cf6;
+}
+
+.kpi-pct {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.kpi-label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 /* ── Layout principal admin ── */
 .admin-content {
     display: grid;

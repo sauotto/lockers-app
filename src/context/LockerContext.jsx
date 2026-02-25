@@ -96,43 +96,62 @@ export const LockerProvider = ({ children }) => {
 
   const addLocker = async () => {
     try {
-      const maxNumber = lockers.length > 0 ? Math.max(...lockers.map(l => l.number)) : 0;
-      const newNumber = maxNumber + 1;
+      // Consultar el máximo number directamente desde la DB para evitar duplicados
+      const { data: maxData, error: maxError } = await supabase
+        .from('lockers')
+        .select('number')
+        .order('number', { ascending: false })
+        .limit(1)
+        .single();
 
-      const { data, error } = await supabase
+      const nextNumber = maxError ? (lockers.length + 1) : (maxData.number + 1);
+
+      const { error } = await supabase
         .from('lockers')
         .insert([{
-          number: newNumber,
+          number: nextNumber,
           status: 'Available',
           name: '',
           type: 'Line',
           has_key: false,
-        }])
-        .select()
-        .single();
+        }]);
 
       if (error) throw error;
 
-      // Realtime will handle the UI update via subscription
+      // Realtime handles UI update; fallback re-fetch just in case
+      await fetchLockers();
     } catch (error) {
       console.error('Error adding locker:', error.message);
-      fetchLockers();
+      await fetchLockers();
     }
   };
 
   const removeLocker = async (id) => {
     try {
-      const { error } = await supabase
+      console.log('Removing locker with id:', id);
+
+      // Optimistic removal
+      setLockers(prev => prev.filter(l => l.id !== id));
+
+      const { data, error, count } = await supabase
         .from('lockers')
         .delete()
-        .eq('id', id);
+        .eq('id', id)
+        .select();
+
+      console.log('Delete result:', { data, error, count });
 
       if (error) throw error;
 
-      // Realtime will handle the UI update via subscription
+      // If delete returned no rows, RLS might be blocking it
+      if (!data || data.length === 0) {
+        console.warn('Delete returned no rows — RLS might be blocking. Re-fetching...');
+      }
+
+      await fetchLockers();
     } catch (error) {
       console.error('Error removing locker:', error.message);
-      fetchLockers();
+      await fetchLockers();
     }
   };
 
@@ -140,7 +159,22 @@ export const LockerProvider = ({ children }) => {
     const total = lockers.length;
     const occupied = lockers.filter(l => l.status === 'Occupied').length;
     const available = total - occupied;
-    return { total, occupied, available };
+
+    // KPIs por tipo de colaborador (solo los ocupados)
+    const occupiedLockers = lockers.filter(l => l.status === 'Occupied');
+    const byLine = occupiedLockers.filter(l => l.type === 'Line').length;
+    const byLeader = occupiedLockers.filter(l => l.type === 'Leader').length;
+    const byExternal = occupiedLockers.filter(l => l.type === 'External').length;
+
+    const pctLine = occupied > 0 ? Math.round((byLine / occupied) * 100) : 0;
+    const pctLeader = occupied > 0 ? Math.round((byLeader / occupied) * 100) : 0;
+    const pctExternal = occupied > 0 ? Math.round((byExternal / occupied) * 100) : 0;
+
+    return {
+      total, occupied, available,
+      byLine, byLeader, byExternal,
+      pctLine, pctLeader, pctExternal,
+    };
   };
 
   return (
