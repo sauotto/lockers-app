@@ -1,41 +1,51 @@
 .admin-panel {
+    padding: 16px;
     padding-top: 20px;
     background-color: transparent;
     min-height: 100vh;
     color: var(--text-primary);
+    box-sizing: border-box;
+}
+
+/* ── Título ── */
+.admin-panel .title {
+    font-size: 1.6rem;
+    margin-bottom: 1.2rem;
 }
 
 /* ── Estadísticas ── */
 .store-stats {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 20px;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+    align-items: stretch;
 }
 
 .stat-card {
     background: var(--card-bg);
-    padding: 16px 32px;
+    padding: 14px 12px;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    min-width: 0;
 }
 
 .stat-value {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     font-weight: 800;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
+    line-height: 1.1;
 }
 
 .stat-label {
     color: var(--text-secondary);
     text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 1px;
+    font-size: 0.65rem;
+    letter-spacing: 0.8px;
+    text-align: center;
 }
 
 .stat-card.occupied .stat-value {
@@ -50,21 +60,22 @@
 .locker-controls {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     background: var(--card-bg);
-    padding: 10px 16px;
+    padding: 10px 14px;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .control-btn {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     border: 1px solid rgba(255, 255, 255, 0.15);
     background: transparent;
     color: #fff;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.15s ease;
@@ -73,6 +84,7 @@
     justify-content: center;
     font-family: inherit;
     line-height: 1;
+    flex-shrink: 0;
 }
 
 .control-btn.add-btn:hover:not(:disabled) {
@@ -93,47 +105,50 @@
 }
 
 .locker-count {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
-    min-width: 28px;
+    min-width: 24px;
     text-align: center;
 }
 
 /* ── KPIs por tipo de colaborador ── */
 .kpi-row {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
 }
 
 .kpi-card {
     background: var(--card-bg);
-    padding: 12px 20px;
+    padding: 12px 14px;
     border-radius: 10px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 2px;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    border-left: 3px solid;
+    border-top: 3px solid;
+    min-width: 0;
+    text-align: center;
 }
 
 .kpi-card.kpi-line {
-    border-left-color: #3b82f6;
+    border-top-color: #3b82f6;
 }
 
 .kpi-card.kpi-leader {
-    border-left-color: #f59e0b;
+    border-top-color: #f59e0b;
 }
 
 .kpi-card.kpi-external {
-    border-left-color: #8b5cf6;
+    border-top-color: #8b5cf6;
 }
 
 .kpi-value {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 800;
+    line-height: 1.1;
 }
 
 .kpi-card.kpi-line .kpi-value {
@@ -149,43 +164,43 @@
 }
 
 .kpi-pct {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
     color: var(--text-secondary);
 }
 
 .kpi-label {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 /* ── Layout principal admin ── */
 .admin-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-@media (max-width: 700px) {
-    .admin-content {
-        grid-template-columns: 1fr;
-    }
+    gap: 16px;
 }
 
 .card {
     background: var(--card-bg);
-    padding: 24px;
-    border-radius: 16px;
+    padding: 20px;
+    border-radius: 14px;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    min-width: 0;
+    overflow: hidden;
 }
 
 .locker-list h3 {
     margin-top: 0;
-    margin-bottom: 14px;
-    font-size: 1rem;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -194,7 +209,7 @@
 /* ── Grilla de lockers: 7 columnas fijas ── */
 .list-grid {
     display: grid;
-    gap: 8px;
+    gap: 6px;
 }
 
 .list-item {
@@ -202,14 +217,14 @@
     border: 1px solid rgba(255, 255, 255, 0.12);
     background: rgba(255, 255, 255, 0.04);
     color: #fff;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
     transition: all 0.15s;
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: 700;
     font-family: inherit;
     padding: 0;
-    min-height: 44px;
+    min-height: 32px;
 }
 
 .list-item:hover,
@@ -235,20 +250,20 @@
 .edit-form h2 {
     margin-top: 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 14px;
-    margin-bottom: 18px;
-    font-size: 1.2rem;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    font-size: 1.1rem;
 }
 
 .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     color: var(--text-secondary);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -256,13 +271,14 @@
 input[type="text"],
 select {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     background: #0f1015;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     color: #fff;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-family: inherit;
+    box-sizing: border-box;
 }
 
 input[type="text"]:focus,
@@ -273,18 +289,18 @@ select:focus {
 
 .radio-group {
     display: flex;
-    gap: 10px;
+    gap: 8px;
 }
 
 .radio-label {
     flex: 1;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     cursor: pointer;
     text-align: center;
     transition: all 0.3s;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .radio-label.selected.available {
@@ -307,7 +323,7 @@ select:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 200px;
+    min-height: 160px;
 }
 
 .no-selection p {
@@ -320,14 +336,15 @@ select:focus {
 .toggle-switch {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 52px;
+    height: 28px;
+    flex-shrink: 0;
 }
 
 .switch input {
@@ -345,16 +362,16 @@ select:focus {
     bottom: 0;
     background-color: #333;
     transition: .4s;
-    border-radius: 34px;
+    border-radius: 28px;
 }
 
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
     background-color: white;
     transition: .4s;
     border-radius: 50%;
@@ -369,5 +386,116 @@ input:focus+.slider {
 }
 
 input:checked+.slider:before {
-    transform: translateX(26px);
+    transform: translateX(24px);
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE — MOBILE
+   ══════════════════════════════════ */
+@media (max-width: 768px) {
+    .admin-panel {
+        padding: 10px;
+        padding-top: 12px;
+    }
+
+    .admin-panel .title {
+        font-size: 1.2rem;
+        margin-bottom: 0.8rem;
+    }
+
+    /* Stats: 3 cards + controls en nueva fila */
+    .store-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .locker-controls {
+        grid-column: 1 / -1;
+        justify-content: center;
+    }
+
+    .stat-card {
+        padding: 10px 6px;
+    }
+
+    .stat-value {
+        font-size: 1.4rem;
+    }
+
+    .stat-label {
+        font-size: 0.58rem;
+    }
+
+    /* KPIs */
+    .kpi-row {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        margin-bottom: 10px;
+    }
+
+    .kpi-card {
+        padding: 8px 6px;
+    }
+
+    .kpi-value {
+        font-size: 1.2rem;
+    }
+
+    .kpi-pct {
+        font-size: 0.7rem;
+    }
+
+    .kpi-label {
+        font-size: 0.55rem;
+    }
+
+    /* Main content stacks vertically */
+    .admin-content {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .card {
+        padding: 14px;
+        border-radius: 12px;
+    }
+
+    .list-grid {
+        gap: 4px;
+    }
+
+    .list-item {
+        font-size: 0.75rem;
+        min-height: 28px;
+        border-radius: 5px;
+    }
+
+    .edit-form h2 {
+        font-size: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .radio-label {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .stat-value {
+        font-size: 1.2rem;
+    }
+
+    .kpi-value {
+        font-size: 1rem;
+    }
+
+    .list-item {
+        font-size: 0.65rem;
+        min-height: 24px;
+    }
 }
