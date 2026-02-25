@@ -7,10 +7,34 @@
     box-sizing: border-box;
 }
 
-/* ── Título ── */
-.admin-panel .title {
-    font-size: 1.6rem;
-    margin-bottom: 1.2rem;
+/* ── Header ── */
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.admin-header .title {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.logout-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-secondary);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.logout-btn:hover {
+    border-color: var(--accent-red);
+    color: var(--accent-red);
 }
 
 /* ── Estadísticas ── */
@@ -180,13 +204,7 @@
     max-width: 100%;
 }
 
-/* ── Layout principal admin ── */
-.admin-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
-
+/* ── Card y Locker Grid ── */
 .card {
     background: var(--card-bg);
     padding: 20px;
@@ -206,7 +224,6 @@
     letter-spacing: 0.5px;
 }
 
-/* ── Grilla de lockers: 7 columnas fijas ── */
 .list-grid {
     display: grid;
     gap: 6px;
@@ -227,15 +244,10 @@
     min-height: 32px;
 }
 
-.list-item:hover,
-.list-item.active {
+.list-item:hover {
     background: rgba(255, 255, 255, 0.12);
     border-color: #fff;
     transform: scale(1.06);
-}
-
-.list-item.active {
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
 }
 
 .list-item.occupied {
@@ -246,17 +258,94 @@
     border-bottom: 3px solid var(--accent-green);
 }
 
-/* ── Formulario de edición ── */
-.edit-form h2 {
-    margin-top: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 12px;
-    margin-bottom: 16px;
-    font-size: 1.1rem;
+/* ══════════════════════════════════
+   MODAL OVERLAY — Edición de Locker
+   ══════════════════════════════════ */
+.edit-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.edit-modal {
+    background: var(--card-bg, #1a1b23);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 420px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.25s ease;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.close-modal-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.close-modal-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #fff;
+}
+
+.modal-body {
+    padding: 22px;
+}
+
+/* ── Formulario ── */
 .form-group {
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 .form-group label {
@@ -271,12 +360,12 @@
 input[type="text"],
 select {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background: #0f1015;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     color: #fff;
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-family: inherit;
     box-sizing: border-box;
 }
@@ -294,13 +383,13 @@ select:focus {
 
 .radio-label {
     flex: 1;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     cursor: pointer;
     text-align: center;
     transition: all 0.3s;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
 }
 
 .radio-label.selected.available {
@@ -317,19 +406,6 @@ select:focus {
 
 .radio-label input {
     display: none;
-}
-
-.no-selection {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 160px;
-}
-
-.no-selection p {
-    color: var(--text-secondary);
-    font-style: italic;
-    text-align: center;
 }
 
 /* ── Toggle Switch ── */
@@ -398,12 +474,10 @@ input:checked+.slider:before {
         padding-top: 12px;
     }
 
-    .admin-panel .title {
-        font-size: 1.2rem;
-        margin-bottom: 0.8rem;
+    .admin-header .title {
+        font-size: 1.1rem;
     }
 
-    /* Stats: 3 cards + controls en nueva fila */
     .store-stats {
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
@@ -427,7 +501,6 @@ input:checked+.slider:before {
         font-size: 0.58rem;
     }
 
-    /* KPIs */
     .kpi-row {
         grid-template-columns: repeat(3, 1fr);
         gap: 6px;
@@ -450,12 +523,6 @@ input:checked+.slider:before {
         font-size: 0.55rem;
     }
 
-    /* Main content stacks vertically */
-    .admin-content {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
     .card {
         padding: 14px;
         border-radius: 12px;
@@ -471,17 +538,28 @@ input:checked+.slider:before {
         border-radius: 5px;
     }
 
-    .edit-form h2 {
-        font-size: 1rem;
+    /* Modal: full width on mobile */
+    .edit-overlay {
+        padding: 12px;
+        align-items: flex-start;
+        padding-top: 40px;
     }
 
-    .form-group {
-        margin-bottom: 12px;
+    .edit-modal {
+        max-width: 100%;
+        max-height: 85vh;
     }
 
-    .radio-label {
-        padding: 8px;
-        font-size: 0.8rem;
+    .modal-header {
+        padding: 14px 16px;
+    }
+
+    .modal-header h2 {
+        font-size: 1.05rem;
+    }
+
+    .modal-body {
+        padding: 16px;
     }
 }
 

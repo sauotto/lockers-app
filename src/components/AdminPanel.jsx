@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useLockers } from '../context/LockerContext';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 import './AdminPanel.css';
 
 const COLUMNAS = 7;
@@ -8,6 +10,7 @@ const AdminPanel = () => {
     const { lockers, updateLocker, addLocker, removeLocker, getStats } = useLockers();
     const [selectedLockerId, setSelectedLockerId] = useState(null);
     const [working, setWorking] = useState(false);
+    const navigate = useNavigate();
 
     const stats = getStats();
     const selectedLocker = lockers.find(l => l.id === selectedLockerId);
@@ -27,16 +30,28 @@ const AdminPanel = () => {
     const handleRemove = async () => {
         if (working || lockers.length === 0) return;
         setWorking(true);
-        // Elimina el último locker
         const lastLocker = lockers[lockers.length - 1];
         if (selectedLockerId === lastLocker.id) setSelectedLockerId(null);
         await removeLocker(lastLocker.id);
         setWorking(false);
     };
 
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        navigate('/');
+    };
+
+    const closeModal = () => setSelectedLockerId(null);
+
     return (
         <div className="admin-panel container">
-            <h1 className="title">Panel de Administración</h1>
+            {/* ── Header ── */}
+            <div className="admin-header">
+                <h1 className="title">Panel de Administración</h1>
+                <button className="logout-btn" onClick={handleLogout} title="Cerrar Sesión">
+                    Salir ↗
+                </button>
+            </div>
 
             {/* ── Estadísticas + Gestión ── */}
             <div className="store-stats">
@@ -53,7 +68,6 @@ const AdminPanel = () => {
                     <span className="stat-label">Disponibles</span>
                 </div>
 
-                {/* Botones + / − */}
                 <div className="locker-controls">
                     <button
                         className="control-btn remove-btn"
@@ -75,7 +89,7 @@ const AdminPanel = () => {
                 </div>
             </div>
 
-            {/* ── KPIs por tipo de colaborador ── */}
+            {/* ── KPIs por tipo de colab ── */}
             <div className="kpi-row">
                 <div className="kpi-card kpi-line">
                     <span className="kpi-value">{stats.byLine}</span>
@@ -94,31 +108,37 @@ const AdminPanel = () => {
                 </div>
             </div>
 
-            {/* ── Contenido principal ── */}
-            <div className="admin-content">
-                <div className="locker-list card">
-                    <h3>Seleccionar Locker</h3>
-                    <div
-                        className="list-grid"
-                        style={{ gridTemplateColumns: `repeat(${COLUMNAS}, 1fr)` }}
-                    >
-                        {lockers.map(locker => (
-                            <button
-                                key={locker.id}
-                                className={`list-item ${selectedLockerId === locker.id ? 'active' : ''} ${locker.status.toLowerCase()}`}
-                                onClick={() => setSelectedLockerId(locker.id)}
-                            >
-                                {locker.number}
-                            </button>
-                        ))}
-                    </div>
+            {/* ── Grid de lockers ── */}
+            <div className="locker-list card">
+                <h3>Toca un locker para editarlo</h3>
+                <div
+                    className="list-grid"
+                    style={{ gridTemplateColumns: `repeat(${COLUMNAS}, 1fr)` }}
+                >
+                    {lockers.map(locker => (
+                        <button
+                            key={locker.id}
+                            className={`list-item ${locker.status.toLowerCase()}`}
+                            onClick={() => setSelectedLockerId(locker.id)}
+                        >
+                            {locker.number}
+                        </button>
+                    ))}
                 </div>
+            </div>
 
-                <div className="edit-panel">
-                    {selectedLocker ? (
-                        <div className="edit-form card">
-                            <h2>Editando Locker {selectedLocker.number}</h2>
+            {/* ── Modal de edición ── */}
+            {selectedLocker && (
+                <div className="edit-overlay" onClick={closeModal}>
+                    <div className="edit-modal" onClick={e => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h2>Locker {selectedLocker.number}</h2>
+                            <button className="close-modal-btn" onClick={closeModal}>
+                                ← Regresar
+                            </button>
+                        </div>
 
+                        <div className="modal-body">
                             <div className="form-group">
                                 <label>Nombre del Ocupante</label>
                                 <input
@@ -180,13 +200,9 @@ const AdminPanel = () => {
                                 </div>
                             </div>
                         </div>
-                    ) : (
-                        <div className="no-selection card">
-                            <p>Selecciona un locker para editar sus detalles</p>
-                        </div>
-                    )}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };
